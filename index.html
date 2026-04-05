@@ -208,16 +208,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);min-he
         <span class="balance-currency">₹</span>
         <span class="balance-num" id="balNum">0</span>
       </div>
-      <div class="balance-footer">
-        <div class="bal-stat">
-          <div class="bal-dot in"></div>
-          <div class="bal-text">In: <strong id="miniIn">₹0</strong></div>
-        </div>
-        <div class="bal-stat">
-          <div class="bal-dot out"></div>
-          <div class="bal-text">Out: <strong id="miniOut">₹0</strong></div>
-        </div>
-      </div>
+
     </div>
 
     <!-- 2. SUMMARY -->
@@ -408,10 +399,8 @@ function render(){
     balEl.classList.add('pop');
     setTimeout(()=>balEl.classList.remove('pop'),280);
   }
-  document.getElementById('miniIn').textContent  = fmt(ti);
-  document.getElementById('miniOut').textContent = fmt(to);
-  document.getElementById('sumIn').textContent   = fmt(ti);
-  document.getElementById('sumOut').textContent  = fmt(to);
+  document.getElementById('sumIn').textContent  = fmt(ti);
+  document.getElementById('sumOut').textContent = fmt(to);
 
   const labels={all:'All',daily:"Today's",weekly:"This Week's",monthly:"This Month's",yearly:"This Year's"};
   document.getElementById('listHead').textContent = labels[curFilter]+' Transactions';
