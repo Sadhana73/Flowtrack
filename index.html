@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FlowTrack</title>
+
+<!-- ✅ PWA: Manifest & Theme -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#18160F">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FlowTrack">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -208,7 +218,6 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);min-he
         <span class="balance-currency">₹</span>
         <span class="balance-num" id="balNum">0</span>
       </div>
-
     </div>
 
     <!-- 2. SUMMARY -->
@@ -584,6 +593,15 @@ document.addEventListener('click',e=>{
   const wrap=document.querySelector('.dp-wrap');
   if(wrap&&!wrap.contains(e.target)) closeCalPopup();
 });
+
+/* ✅ PWA: Register Service Worker */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/Flowtrack/sw.js')
+      .then(reg => console.log('SW registered:', reg.scope))
+      .catch(err => console.log('SW error:', err));
+  });
+}
 
 /* INIT */
 updateDateDisplay();
