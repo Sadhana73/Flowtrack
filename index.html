@@ -587,7 +587,11 @@ onAuthStateChanged(auth, user=>{
     currentUser=null;
     if(unsubscribe){ unsubscribe(); unsubscribe=null; }
     txns=[];
-    showScreen('authScreen');
+    const btn=document.getElementById("authSubmitBtn");
+    if(btn){ btn.disabled=false; btn.innerHTML="<span id=authBtnText>Sign In</span>"; }
+    const errEl=document.getElementById("authErr");
+    if(errEl) errEl.classList.remove("show");
+    showScreen("authScreen");
   }
 });
 
@@ -663,8 +667,7 @@ function subscribeToTxns(){
 
   const q=query(
     collection(db,'transactions'),
-    where('userId','==',currentUser.uid),
-    orderBy('date','desc')
+    where('userId','==',currentUser.uid)
   );
 
   unsubscribe=onSnapshot(q, snapshot=>{
