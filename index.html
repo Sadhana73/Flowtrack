@@ -60,6 +60,10 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);min-he
 .auth-form{display:flex;flex-direction:column;gap:14px}
 .auth-field label{display:block;font-size:10.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-3);margin-bottom:7px}
 .auth-input{width:100%;padding:13px 14px;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:'Sora',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color 0.15s}
+.pw-wrap{position:relative}
+.pw-wrap .auth-input{padding-right:46px}
+.pw-eye{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:17px;color:var(--text-3);padding:4px;line-height:1;transition:color 0.15s}
+.pw-eye:hover{color:var(--text-2)}
 .auth-input:focus{border-color:var(--gold);background:#fff}
 .auth-input.error{border-color:var(--red)}
 .auth-btn{width:100%;height:50px;border:none;border-radius:var(--r-sm);background:var(--text);color:#fff;font-family:'Sora',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:4px;transition:all 0.16s;letter-spacing:0.2px;display:flex;align-items:center;justify-content:center;gap:8px}
@@ -302,7 +306,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);min-he
       </div>
       <div class="auth-field">
         <label>Password</label>
-        <input class="auth-input" type="password" id="authPassword" placeholder="Minimum 6 characters" autocomplete="current-password">
+        <div class="pw-wrap"><input class="auth-input" type="password" id="authPassword" placeholder="Minimum 6 characters" autocomplete="current-password"><button class="pw-eye" type="button" onclick="togglePw()" id="pwEye">👁</button></div>
       </div>
       <div class="auth-err" id="authErr"></div>
       <button class="auth-btn" id="authSubmitBtn" onclick="handleAuth()">
@@ -591,11 +595,35 @@ onAuthStateChanged(auth, user=>{
     if(btn){ btn.disabled=false; btn.innerHTML="<span id=authBtnText>Sign In</span>"; }
     const errEl=document.getElementById("authErr");
     if(errEl) errEl.classList.remove("show");
+    const emailEl=document.getElementById("authEmail");
+    const passEl=document.getElementById("authPassword");
+    const nameEl=document.getElementById("authName");
+    if(emailEl) emailEl.value="";
+    if(passEl){ passEl.value=""; passEl.type="password"; }
+    if(nameEl) nameEl.value="";
+    const eye=document.getElementById("pwEye");
+    if(eye) eye.textContent="👁";
     showScreen("authScreen");
+    currentUser=null;
+    if(unsubscribe){ unsubscribe(); unsubscribe=null; }
+
+
+
+
+
+
   }
 });
 
 /* ─── AUTH TAB ─── */
+/* ─── PASSWORD TOGGLE ─── */
+window.togglePw = function(){
+  const inp=document.getElementById("authPassword");
+  const eye=document.getElementById("pwEye");
+  if(inp.type==="password"){ inp.type="text"; eye.textContent="🙈"; }
+  else { inp.type="password"; eye.textContent="👁"; }
+};
+
 let authMode = 'login';
 window.switchTab = function(mode){
   authMode=mode;
